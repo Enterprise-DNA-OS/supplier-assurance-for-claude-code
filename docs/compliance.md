@@ -1,0 +1,16 @@
+# Evidence checks and their limits
+
+Checked 10 October 2026. These records support a human review, not a legal determination or compliance certification. The CLI tests whether evidence references exist and are current. It cannot inspect a document, establish which law applies, authenticate a reviewer or establish that referenced safeguards are effective.
+
+| Check | Source and application | What this base tests |
+|---|---|---|
+| Security review for suppliers handling personal information | [NZ Privacy Principle 5](https://www.privacy.org.nz/privacy-principles/5/) concerns reasonable protection, including service providers. [AU APP 11](https://www.oaic.gov.au/privacy/australian-privacy-principles/australian-privacy-principles-guidelines/chapter-11-app-11-security-of-personal-information) concerns reasonable security measures for covered entities. | Current security evidence when personal_data is yes. The operator records the review period. |
+| Overseas applicability and safeguards review | [NZ Privacy Principle 12](https://www.privacy.org.nz/privacy-principles/12/) and [its decision tree](https://www.privacy.org.nz/responsibilities/disclosing-personal-information-outside-new-zealand/decision-tree-page/) distinguish overseas disclosure from processing by an agent. [AU APP 8 guidance](https://www.oaic.gov.au/privacy/australian-privacy-principles/australian-privacy-principles-guidelines/chapter-8-app-8-cross-border-disclosure-of-personal-information) describes reasonable steps and exceptions for covered entities. | Current overseas evidence when a supplier handles personal information overseas. Record applicability, jurisdiction, purpose, safeguards or the documented exception in the note. This local check does not assert every overseas processor is a legal disclosure. |
+| Identity, ownership, insurance | Local onboarding policy, not a universal legal requirement. Configure insurance_required for your contracts. | Identity evidence for every unarchived supplier, a named owner and insurance evidence when required. |
+| Known risk classification | Local approval policy. | Known criticality and personal-information classification, plus overseas classification when personal information is handled. Unknown never means no. |
+| Critical corrective actions | Local approval policy. | No open critical finding at approval. Lower severity actions remain visible without automatically blocking approval. |
+| Scorecards and dates | Local management policy, not statutory periods. | Scores below 80 need review; scores older than 90 days are stale. The reviewer sets the next approval date. |
+
+Expiry is inclusive: evidence expiring today remains current today, using UTC dates. A newer recorded entry supersedes an older entry of the same kind even if its expiry is earlier. Approval becomes stale whenever the supplier, evidence, findings or performance records change. Logging a conversation alone does not invalidate approval.
+
+No sanctions database, credit bureau or external identity check is connected. No bank details or payment function exists. Nothing is reported to a regulator. Follow the organisation's established incident process. Secure the database and evidence store, restrict access and test restoration before using real records.

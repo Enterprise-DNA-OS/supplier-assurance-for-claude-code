@@ -1,13 +1,35 @@
 [
   {
     "name": "week",
-    "title": "This week",
-    "subtitle": "Supplier Assurance for Claude Code: what needs attention, rendered by npm run view",
+    "title": "Supplier assurance: the week",
+    "subtitle": "Read-only review snapshot. Evidence references require human verification.",
     "sections": [
       {
-        "title": "Needs attention",
-        "note": "TODO(author): point this at the industry's attention view (overdue, stuck, quiet).",
-        "sql": "select 'replace me' as item, 'TODO(author)' as why"
+        "title": "Review queue",
+        "sql": "select * from assurance.review_queue order by reference"
+      },
+      {
+        "title": "Evidence gaps",
+        "sql": "select reference,name,kind,reason,basis from assurance.evidence_gaps order by reference,kind"
+      },
+      {
+        "title": "Open corrective actions",
+        "sql": "select s.reference,f.title,f.severity,f.owner,f.due_on from assurance.findings f join assurance.suppliers s on s.id=f.supplier_id where f.status='open' order by f.due_on"
+      }
+    ]
+  },
+  {
+    "name": "performance",
+    "title": "Supplier performance review",
+    "sections": [
+      {
+        "title": "Scorecards",
+        "sql": "select reference,name,period_end,delivery_score,quality_score,result from assurance.scorecards order by reference"
+      },
+      {
+        "title": "Recorded spend by currency",
+        "note": "Missing amounts stay unknown. Different currencies are never totalled together.",
+        "sql": "select category,currency,sum(annual_spend) recorded_annual_spend,count(*) filter(where annual_spend is null) unknown_spends from assurance.suppliers where state<>'archived' group by category,currency order by category,currency"
       }
     ]
   }

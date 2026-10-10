@@ -1,43 +1,19 @@
-# Supplier Assurance for Claude Code: operating instructions
+# Supplier Assurance: operating instructions
 
-This file is the brain. Claude Code reads it at the start of every session. It says who this is for, how work gets done, and the one right way to do each recurring job.
+Use current CLI data before answering. Read the supplier and its evidence before making a change. Unknown classifications and amounts stay unknown. An evidence reference is a pointer supplied by an operator, not a document the system has inspected.
 
-## Who this is for
+The one CLI is `npm run assurance -- <command>`. Every command accepts `--json`. Use `help` or docs/cli.md for flags. Match a unique reference, name or ID prefix. If ambiguous, list candidates and stop the change.
 
-- **Business:** [YOUR BUSINESS]
-- **Operator:** [YOUR NAME], [your role]
-- **What matters most:** [the one or two outcomes you care about]
+Recurring jobs live only in .claude/commands. Read these recipes from Claude Code, Codex, OpenCode or Cursor. AGENTS.md points here so every runtime follows the same operating rules.
 
-Fill this in once. A worker with context knows. A worker without it guesses.
+Never send, place an order, change a bank account, cancel a vendor agreement or publish a document. Supplier approval records an internal decision only. Drafts stay in drafts/. An operator must inspect the evidence and decide whether a rule applies. Read docs/compliance.md before explaining a compliance check.
 
-## How to work
+Approval requires an owner, known criticality and privacy classification, current required evidence and no open critical findings. A change to the supplier, evidence, findings or scorecards requires another approval. A review or evidence expiry also invalidates approval. There is no override flag. Suspending stops current qualification. Archiving requires closed findings and makes the record read-only through the CLI.
 
-1. **Take a brief, not a script.** The operator describes the outcome. You run the right command and present the answer.
-2. **Read before you write.** Before drafting anything about a record, read its full history first.
-3. **Plain language.** Short sentences. No filler. Numbers in tables.
-4. **Silent success, loud problems.** No play-by-play. Say what broke and what you did about it.
-5. **Stop at the line.** Anything that sends, deletes, or faces a customer waits for a yes in this session.
+Records live in the assurance schema. supabase/migrations contains versioned changes. supabase/seed.sql is fictional and idempotent. Import Gatekeeper into a clean business database without running the demo seed. Source Live status is retained but never grants approval.
 
-## Routing table: one right way for each recurring job
+Local PGlite supports one process at a time. DATABASE_URL selects Postgres with verified TLS for remote connections. Actor names are assertions, not authentication. Shared deployments need authenticated operators, restricted roles, private evidence storage and tested backups. Never expose the owner connection as a public API. Activity is useful history, not an immutable audit system against a database owner.
 
-| When the operator asks for... | Use this |
-|---|---|
-| <!-- TODO(author): one row per slash command --> | `/...` |
+Run npm test after a change and npm run demo for fictional output. Private files belong in imports/, exports/, drafts/, views/ or docs-out/, all ignored by Git. Keep secrets and business evidence out of fixtures/. A schema change goes through /customise; a read-only snapshot through /new-view.
 
-If an ask fits nothing here, run the CLI directly (`npm run <cli> -- --help`) and then propose a new command for it.
-
-## Hard rules
-
-- Never send email or messages from here. Draft to `drafts/`, a person sends.
-- Never delete records without an explicit yes in this session. Prefer marking closed or archived.
-- Never invent a record. If a name is ambiguous, list the candidates and ask.
-- The database is the source of truth. If the answer is not in it, say so.
-
-## Where things live
-
-- `scripts/` the CLI. `scripts/lib/db.mjs` picks `DATABASE_URL` (Postgres, Supabase) or the embedded database in `.data/`.
-- `supabase/migrations/` the schema, plain SQL. `npm run migrate` applies it.
-- `.claude/commands/` the slash commands. Add one every time the same ask comes twice.
-- `docs/` the thesis and the guide for moving off Gatekeeper.
-
-Built by Enterprise DNA. Installed and run for you as part of Omni: https://enterprisedna.co/omni/instead-of/gatekeeper
+Omni by Enterprise DNA installs and runs your version: https://enterprisedna.co/omni/book?offer=replace-software&utm_campaign=gatekeeper&utm_medium=instructions

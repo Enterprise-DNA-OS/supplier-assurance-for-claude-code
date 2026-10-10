@@ -1,0 +1,24 @@
+{
+  "captured": "2026-10-10T22:33:33.481Z",
+  "fictional": true,
+  "screens": [
+    {
+      "title": "Evidence that needs attention",
+      "ask": "Whose evidence is missing or expires in the next month?",
+      "command": "npm run assurance -- evidence-due",
+      "output": "  reference  name                    kind       expires on  reason \n  ---------  ----------------------  ---------  ----------  -------\n  SUP-01     Harbour Packaging       insurance  2026-10-07  expired\n  SUP-02     Southern Data Services  overseas   Missing     missing\n  SUP-03     Harbour Labels          identity   Missing     missing"
+    },
+    {
+      "title": "Performance worth reviewing",
+      "ask": "Which supplier scorecards are stale or below target?",
+      "command": "npm run assurance -- performance",
+      "output": "  reference  name                    period end  delivery score  quality score  result       \n  ---------  ----------------------  ----------  --------------  -------------  -------------\n  SUP-01     Harbour Packaging       2026-09-30  72              91             below target \n  SUP-02     Southern Data Services  2026-06-12  95              96             stale        \n  SUP-03     Harbour Labels          Unknown     Unknown         Unknown        no scorecard \n  SUP-04     Coastal Office Supply   2026-09-30  98              99             within target"
+    },
+    {
+      "title": "This week’s supplier review",
+      "ask": "Which suppliers need an owner or a fresh approval?",
+      "command": "npm run assurance -- attention",
+      "output": "  reference  name                    owner       criticality  qualification    review due\n  ---------  ----------------------  ----------  -----------  ---------------  ----------\n  SUP-01     Harbour Packaging       Casey       high         evidence needed  2026-10-03\n  SUP-02     Southern Data Services  Ari         high         evidence needed  2026-10-30\n  SUP-03     Harbour Labels          Unassigned  unknown      classify         Unknown"
+    }
+  ]
+}

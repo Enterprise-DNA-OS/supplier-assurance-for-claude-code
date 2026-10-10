@@ -1,11 +1,61 @@
 [
   {
-    "name": "example",
-    "title": "TODO(author): the first document this industry must produce",
-    "for_each": "select gen_random_uuid() as id, 'Example' as name",
+    "name": "approval-brief",
+    "title": "Supplier approval brief",
+    "for_each": "select id,name from assurance.suppliers where state<>'archived' order by reference",
     "file": "name",
     "sections": [
-      { "title": "Details", "sql": "select 'replace me' as item, $1::text as record_id" }
+      {
+        "title": "Supplier",
+        "sql": "select reference,name,owner,category,criticality,personal_data,overseas,review_due from assurance.suppliers where id=$1",
+        "note": "Internal review document. Nothing has been sent or externally verified."
+      },
+      {
+        "title": "Qualification",
+        "sql": "select qualification,evidence_gaps,critical_findings from assurance.qualification where id=$1",
+        "note": "Internal review document. Nothing has been sent or externally verified."
+      },
+      {
+        "title": "Review history",
+        "sql": "select actor,rationale,due_on,supplier_version,evidence_ref from assurance.reviews where supplier_id=$1 order by created_at desc",
+        "note": "Internal review document. Nothing has been sent or externally verified."
+      }
+    ]
+  },
+  {
+    "name": "evidence-request",
+    "title": "Evidence request draft",
+    "for_each": "select id,name from assurance.suppliers where state<>'archived' order by reference",
+    "file": "name",
+    "sections": [
+      {
+        "title": "Evidence to review",
+        "sql": "select kind,basis,reason,expires_on from assurance.evidence_gaps where supplier_id=$1 order by kind",
+        "note": "Internal review document. Nothing has been sent or externally verified."
+      },
+      {
+        "title": "Current evidence references",
+        "sql": "select kind,evidence_ref,expires_on,actor from assurance.latest_evidence where supplier_id=$1 order by kind",
+        "note": "Internal review document. Nothing has been sent or externally verified."
+      }
+    ]
+  },
+  {
+    "name": "corrective-action-plan",
+    "title": "Corrective action plan",
+    "for_each": "select id,name from assurance.suppliers where state<>'archived' order by reference",
+    "file": "name",
+    "sections": [
+      {
+        "title": "Actions and outcomes",
+        "sql": "select title,severity,owner,due_on,status,resolution,closed_on from assurance.findings where supplier_id=$1 order by due_on",
+        "note": "Internal review document. Nothing has been sent or externally verified."
+      },
+      {
+        "title": "Performance",
+        "sql": "select period_end,delivery_score,quality_score,evidence_ref from assurance.performance where supplier_id=$1 order by period_end desc",
+        "note": "Internal review document. Nothing has been sent or externally verified."
+      }
     ]
   }
 ]
